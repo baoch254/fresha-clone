@@ -13,12 +13,20 @@
             "allow": [],
             "depConstraints": [
               {
-                "sourceTag": "scope:api",
+                "sourceTag": "scope:fresha-api",
                 "onlyDependOnLibsWithTags": ["scope:api"]
               },
               {
+                "sourceTag": "scope:fresha-client",
+                "onlyDependOnLibsWithTags": ["scope:api"]
+              },
+              {
+                "sourceTag": "scope:api",
+                "onlyDependOnLibsWithTags": ["scope:api", "scope:shared"]
+              },
+              {
                 "sourceTag": "scope:web",
-                "onlyDependOnLibsWithTags": ["scope:web"]
+                "onlyDependOnLibsWithTags": ["scope:web", "scope:shared"]
               },
               {
                 "sourceTag": "type:app",

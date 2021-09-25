@@ -32,10 +32,12 @@
     }
   },
   "projects": {
-    "api": "./apps/api",
+    "api": "apps/api",
+    "api-shared-exception": "libs/api/shared/exception",
     "api-user": "libs/api/user",
-    "web": "./apps/web",
-    "web-e2e": "./apps/web-e2e"
+    "shared-data-access-model": "libs/shared/data-access/model",
+    "web": "apps/web",
+    "web-e2e": "apps/web-e2e"
   },
   "defaultProject": "web"
 }
