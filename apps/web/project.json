@@ -3,9 +3,9 @@
   "root": "apps/web",
   "sourceRoot": "apps/web/src",
   "prefix": "fresha",
-  "architect": {
+  "targets": {
     "build": {
-      "builder": "@angular-devkit/build-angular:browser",
+      "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/web",
@@ -52,7 +52,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "builder": "@angular-devkit/build-angular:dev-server",
+      "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
           "browserTarget": "web:build:production"
@@ -64,19 +64,19 @@
       "defaultConfiguration": "development"
     },
     "extract-i18n": {
-      "builder": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
         "browserTarget": "web:build"
       }
     },
     "lint": {
-      "builder": "@nrwl/linter:eslint",
+      "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": ["apps/web/src/**/*.ts", "apps/web/src/**/*.html"]
       }
     },
     "test": {
-      "builder": "@nrwl/jest:jest",
+      "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/web"],
       "options": {
         "jestConfig": "apps/web/jest.config.js",
@@ -84,5 +84,5 @@
       }
     }
   },
-  "tags": ["type:app", "scope:web"]
+  "tags": ["type:app", "scope:fresha-client"]
 }

@@ -2,9 +2,9 @@
   "root": "apps/api",
   "sourceRoot": "apps/api/src",
   "projectType": "application",
-  "architect": {
+  "targets": {
     "build": {
-      "builder": "@nrwl/node:build",
+      "executor": "@nrwl/node:build",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/api",
@@ -27,20 +27,20 @@
       }
     },
     "serve": {
-      "builder": "@nrwl/node:execute",
+      "executor": "@nrwl/node:execute",
       "options": {
         "buildTarget": "api:build"
       }
     },
     "lint": {
-      "builder": "@nrwl/linter:eslint",
+      "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/api/**/*.ts"]
       }
     },
     "test": {
-      "builder": "@nrwl/jest:jest",
+      "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/api"],
       "options": {
         "jestConfig": "apps/api/jest.config.js",
@@ -48,5 +48,5 @@
       }
     }
   },
-  "tags": ["type:app", "scope:api"]
+  "tags": ["type:app", "scope:fresha-api"]
 }
