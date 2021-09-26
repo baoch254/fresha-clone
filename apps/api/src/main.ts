@@ -1,7 +1,4 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
+import { AppExceptionFilter } from '@fresha/api/shared/filter';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -34,6 +31,9 @@ async function bootstrap() {
 
   // Global Pipes
   app.useGlobalPipes(new ValidationPipe());
+
+  // Global Filters
+  app.useGlobalFilters(new AppExceptionFilter());
 
   // Configurations
   const globalPrefix = 'api';

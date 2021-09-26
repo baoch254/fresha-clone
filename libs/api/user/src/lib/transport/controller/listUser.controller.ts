@@ -1,13 +1,11 @@
-import { HttpExceptionFilter } from '@fresha/api/shared/exception';
 import { UserModel } from '@fresha/shared/data-access/model';
 import { ListUserService } from '../../service';
-import { Controller, Get, Param, ParseIntPipe, UseInterceptors, UseFilters } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, UseInterceptors } from '@nestjs/common';
 import { MapInterceptor } from '@automapper/nestjs';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from '../../model/entity';
 
 @ApiTags('Users')
-@UseFilters(HttpExceptionFilter)
 @Controller('users')
 export class ListUserController {
   constructor(private listUserService: ListUserService) {}
