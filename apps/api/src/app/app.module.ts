@@ -15,7 +15,8 @@ import { Module } from '@nestjs/common';
       password: process.env.POSTGRES_PASSWORD || '123456',
       database: process.env.POSTGRES_DATABASE || 'fresha',
       synchronize: process.env.production ? false : true,
-      dropSchema: !!process.env.DROP_DB
+      dropSchema: !!process.env.DROP_DB,
+      logging: true
     }),
     AutomapperModule.forRoot({
       options: [{ name: 'MAPPER', pluginInitializer: classes }],

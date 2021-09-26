@@ -1,0 +1,23 @@
+{
+  "root": "libs/api/shared/decorator",
+  "sourceRoot": "libs/api/shared/decorator/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/api/shared/decorator/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/api/shared/decorator"],
+      "options": {
+        "jestConfig": "libs/api/shared/decorator/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["type:util", "scope:api"]
+}

@@ -1,31 +1,43 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
+import { AppExceptionFilter } from '@fresha/api/shared/filter';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import * as helmet from 'helmet';
+import * as compression from 'compression';
+import * as cookieParser from 'cookie-parser';
 
 import { AppModule } from './app/app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true, logger: true });
 
   // Swagger
-  const config = new DocumentBuilder()
+  const swaggerOptions = new DocumentBuilder()
     .setTitle('Fresha Application')
     .setDescription('Fresha - Instantly book salons and spas nearby')
     .setVersion('1.0')
+    .addServer('http://localhost:3333/api')
     .addTag('fresha')
     .build();
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  const swaggerDoc = SwaggerModule.createDocument(app, swaggerOptions);
 
-  // global utils
+  SwaggerModule.setup('/api/docs', app, swaggerDoc);
+
+  // Middlewares
+  app.use(helmet());
+  app.use(compression());
+  app.use(cookieParser());
+
+  // Global Pipes
+  app.useGlobalPipes(new ValidationPipe());
+
+  // Global Filters
+  app.useGlobalFilters(new AppExceptionFilter());
+
+  // Configurations
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
-  app.useGlobalPipes(new ValidationPipe());
   const port = process.env.PORT || 3333;
   await app.listen(port, () => {
     Logger.log('Listening at http://localhost:' + port + '/' + globalPrefix);

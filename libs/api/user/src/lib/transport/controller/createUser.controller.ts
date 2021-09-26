@@ -3,7 +3,6 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { MapPipe } from '@automapper/nestjs';
 import { ApiOperation, ApiTags, ApiCreatedResponse } from '@nestjs/swagger';
 import { UserCreateDto } from '../../model/dto';
-
 @ApiTags('Users')
 @Controller('users')
 export class CreateUserController {

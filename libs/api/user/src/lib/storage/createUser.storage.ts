@@ -1,3 +1,4 @@
+import { DatabaseException } from '@fresha/api/shared/exception';
 import { User } from '../model/entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,7 +13,11 @@ export class CreateUserStorage {
   ) {}
 
   async create(user: UserCreateDto) {
-    await this.userRepository.save(user);
-    return true;
+    try {
+      await this.userRepository.save(user);
+      return true;
+    } catch (err) {
+      throw new DatabaseException(err, err.message);
+    }
   }
 }
