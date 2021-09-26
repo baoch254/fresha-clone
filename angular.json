@@ -33,6 +33,7 @@
   },
   "projects": {
     "api": "apps/api",
+    "api-shared-decorator": "libs/api/shared/decorator",
     "api-shared-exception": "libs/api/shared/exception",
     "api-user": "libs/api/user",
     "shared-data-access-model": "libs/shared/data-access/model",

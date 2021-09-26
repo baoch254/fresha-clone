@@ -1,10 +1,12 @@
+import { HttpExceptionFilter } from '@fresha/api/shared/exception';
 import { CreateUserService } from '../../service';
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseFilters } from '@nestjs/common';
 import { MapPipe } from '@automapper/nestjs';
 import { ApiOperation, ApiTags, ApiCreatedResponse } from '@nestjs/swagger';
 import { UserCreateDto } from '../../model/dto';
 
 @ApiTags('Users')
+@UseFilters(HttpExceptionFilter)
 @Controller('users')
 export class CreateUserController {
   constructor(private createUserService: CreateUserService) {}
