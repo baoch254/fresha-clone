@@ -2,7 +2,7 @@ import { ApiUserModule } from '@fresha/api/user';
 import { classes } from '@automapper/classes';
 import { AutomapperModule } from '@automapper/nestjs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
+import { CamelCaseNamingConvention } from '@automapper/core';
 import { Module } from '@nestjs/common';
 @Module({
   imports: [
@@ -19,7 +19,13 @@ import { Module } from '@nestjs/common';
       logging: true
     }),
     AutomapperModule.forRoot({
-      options: [{ name: 'MAPPER', pluginInitializer: classes }],
+      options: [
+        {
+          name: 'MAPPER',
+          pluginInitializer: classes,
+          namingConventions: new CamelCaseNamingConvention()
+        }
+      ],
       singular: true
     }),
     ApiUserModule

@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { ListUserStorage } from '../storage';
-import { UserModel } from '@fresha/shared/data-access/model';
 import { User } from '../model/entity';
 
 @Injectable()
@@ -11,7 +10,7 @@ export class ListUserService {
     return this.listUserStorage.findAll();
   }
 
-  findOne(id: number): Promise<UserModel> {
+  findOne(id: number): Promise<User> {
     return this.listUserStorage.findOne(id);
   }
 }

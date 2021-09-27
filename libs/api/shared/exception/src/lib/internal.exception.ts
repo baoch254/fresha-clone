@@ -7,7 +7,7 @@ export class InternalException extends AppException {
       HttpStatus.INTERNAL_SERVER_ERROR,
       err,
       'Something went wrong in the server',
-      null,
+      `[${err.name}] Something went wrong in the server`,
       'INTERNAL_ERROR'
     );
   }
