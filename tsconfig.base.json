@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@fresha/api/shared/abstract": ["libs/api/shared/abstract/src/index.ts"],
       "@fresha/api/shared/common": ["libs/api/shared/common/src/index.ts"],
       "@fresha/api/shared/decorator": ["libs/api/shared/decorator/src/index.ts"],
       "@fresha/api/shared/exception": ["libs/api/shared/exception/src/index.ts"],

@@ -1,6 +1,6 @@
 import { AppExceptionFilter, ValidateExceptionFilter } from '@fresha/api/shared/filter';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { BadRequestException, Logger, ValidationError, ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import * as helmet from 'helmet';
 import * as compression from 'compression';
