@@ -1,6 +1,6 @@
 import { UserUpdateDto } from './dto';
 import { User } from './entity';
-import { MapInterceptor, MapPipe } from '@automapper/nestjs';
+import { MapInterceptor } from '@automapper/nestjs';
 import { UserModel } from '@fresha/shared/data-access/model';
 import { UserService } from './user.service';
 import {
@@ -66,10 +66,7 @@ export class UserController {
   @Put(':id')
   @ApiOperation({ summary: 'Update a user' })
   @ApiOkResponse({ description: 'The record has been successfully updated.' })
-  updateOne(
-    @Param('id', ParseIntPipe) id: number,
-    @Body(MapPipe(UserUpdateDto, UserUpdateDto)) user: UserUpdateDto
-  ) {
+  updateOne(@Param('id', ParseIntPipe) id: number, @Body() user: UserUpdateDto) {
     return this.userService.updateUser(id, user);
   }
 

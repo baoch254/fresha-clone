@@ -4,12 +4,14 @@ import { User } from './entity';
 import { UserStorage } from './user.storage';
 import { Injectable } from '@nestjs/common';
 import { EntityExistException } from '@fresha/api/shared/exception';
+import { I8nKey } from '@fresha/api/shared/common';
 
 @Injectable()
 export class UserService {
   constructor(private userStorage: UserStorage) {}
 
   findAll(): Promise<User[]> {
+    // Paging
     return this.userStorage.findAll();
   }
 
@@ -21,7 +23,7 @@ export class UserService {
     const existUsers = await this.userStorage.findByCondition({ email: user.email });
 
     if (existUsers?.length > 0) {
-      throw new EntityExistException('Email is already exist', 'ErrEntityEmailExist');
+      throw new EntityExistException('Email is already exist', I8nKey.ErrEntityEmailExist);
     }
 
     await this.userStorage.createOne(user);
