@@ -1,3 +1,4 @@
+import { getSuccessListResp, getSuccessResp, IPaging } from '@fresha/api/shared/common';
 import { UserUpdateDto } from './dto';
 import { User } from './entity';
 import { MapInterceptor } from '@automapper/nestjs';
@@ -12,7 +13,9 @@ import {
   ParseIntPipe,
   Param,
   Put,
-  Delete
+  Delete,
+  Query,
+  DefaultValuePipe
 } from '@nestjs/common';
 import {
   ApiOperation,
@@ -22,6 +25,7 @@ import {
   ApiOkResponse
 } from '@nestjs/swagger';
 import { UserCreateDto } from './dto';
+
 @ApiTags('Users')
 @Controller('users')
 export class UserController {
@@ -35,9 +39,15 @@ export class UserController {
     type: UserModel,
     isArray: true
   })
-  @UseInterceptors(MapInterceptor(UserModel, User, { isArray: true }))
-  findMany() {
-    return this.userService.findAll();
+  async findMany(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+    @Query('cursor') cursor: number
+  ) {
+    const paging = new IPaging(page, limit, cursor);
+    const [data, total] = await this.userService.findAll(paging);
+
+    return getSuccessListResp(data, total, paging);
   }
 
   @Get(':id')
@@ -52,28 +62,28 @@ export class UserController {
     description: 'The record is not founded'
   })
   @UseInterceptors(MapInterceptor(UserModel, User))
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.userService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return getSuccessResp(await this.userService.findOne(id));
   }
 
   @Post()
   @ApiOperation({ summary: 'Create new user' })
   @ApiCreatedResponse({ description: 'The record has been successfully created.' })
-  createOne(@Body() user: UserCreateDto) {
-    return this.userService.createUser(user);
+  async createOne(@Body() user: UserCreateDto) {
+    return getSuccessResp(await this.userService.createUser(user));
   }
 
   @Put(':id')
   @ApiOperation({ summary: 'Update a user' })
   @ApiOkResponse({ description: 'The record has been successfully updated.' })
-  updateOne(@Param('id', ParseIntPipe) id: number, @Body() user: UserUpdateDto) {
-    return this.userService.updateUser(id, user);
+  async updateOne(@Param('id', ParseIntPipe) id: number, @Body() user: UserUpdateDto) {
+    return getSuccessResp(await this.userService.updateUser(id, user));
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a user' })
   @ApiOkResponse({ description: 'The record has been successfully deleted.' })
-  deleteOne(@Param('id', ParseIntPipe) id: number) {
-    return this.userService.deleteUser(id);
+  async deleteOne(@Param('id', ParseIntPipe) id: number) {
+    return getSuccessResp(await this.userService.deleteUser(id));
   }
 }

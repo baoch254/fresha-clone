@@ -1,3 +1,4 @@
+import { BaseEntity } from '../entity';
 import { EntityStatus } from '@fresha/api/shared/common';
 import { Injectable } from '@nestjs/common';
 import { FindConditions, Repository } from 'typeorm';
@@ -5,12 +6,36 @@ import { DatabaseException } from '@fresha/api/shared/exception';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
 @Injectable()
-export class BaseStorage<T> {
+export class BaseStorage<T extends BaseEntity> {
   constructor(private repository: Repository<T>) {}
 
-  findAll(): Promise<T[]> {
+  findAll(
+    page: number,
+    limit: number,
+    cursor: number | string | null,
+    conditions?: string[]
+  ): Promise<[T[], number]> {
     try {
-      return this.repository.find();
+      let builder = this.repository.createQueryBuilder();
+
+      // list data with cursor
+      if (cursor != null) {
+        builder = builder.where('id < :cursor', { cursor }).andWhere('status = 1');
+      } else {
+        builder = builder.skip((page - 1) * limit).where('status = 1');
+      }
+
+      // add conditions
+      if (conditions) {
+        for (const cond of conditions) {
+          builder = builder.andWhere(cond);
+        }
+      }
+
+      // default sorted
+      builder = builder.orderBy('id', 'DESC').take(limit);
+
+      return builder.getManyAndCount();
     } catch (err) {
       throw new DatabaseException(err, err.message);
     }

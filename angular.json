@@ -38,6 +38,7 @@
     "api-shared-decorator": "libs/api/shared/decorator",
     "api-shared-exception": "libs/api/shared/exception",
     "api-shared-filter": "libs/api/shared/filter",
+    "api-shared-pipe": "libs/api/shared/pipe",
     "api-shared-validation": "libs/api/shared/validation",
     "api-user": "libs/api/user",
     "shared-data-access-model": "libs/shared/data-access/model",

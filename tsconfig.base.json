@@ -20,6 +20,7 @@
       "@fresha/api/shared/decorator": ["libs/api/shared/decorator/src/index.ts"],
       "@fresha/api/shared/exception": ["libs/api/shared/exception/src/index.ts"],
       "@fresha/api/shared/filter": ["libs/api/shared/filter/src/index.ts"],
+      "@fresha/api/shared/pipe": ["libs/api/shared/pipe/src/index.ts"],
       "@fresha/api/shared/validation": ["libs/api/shared/validation/src/index.ts"],
       "@fresha/api/user": ["libs/api/user/src/index.ts"],
       "@fresha/shared/data-access/model": ["libs/shared/data-access/model/src/index.ts"]

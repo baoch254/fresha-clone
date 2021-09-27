@@ -1,18 +1,24 @@
+import { InjectMapper } from '@automapper/nestjs';
 import { EntityNotFoundException } from '@fresha/api/shared/exception';
 import { UserCreateDto, UserUpdateDto } from './dto';
 import { User } from './entity';
 import { UserStorage } from './user.storage';
 import { Injectable } from '@nestjs/common';
 import { EntityExistException } from '@fresha/api/shared/exception';
-import { I8nKey } from '@fresha/api/shared/common';
+import { I8nKey, IPaging } from '@fresha/api/shared/common';
+import { Mapper } from '@automapper/types';
+import { UserModel } from '@fresha/shared/data-access/model';
 
 @Injectable()
 export class UserService {
-  constructor(private userStorage: UserStorage) {}
+  constructor(private userStorage: UserStorage, @InjectMapper() private mapper: Mapper) {}
 
-  findAll(): Promise<User[]> {
+  async findAll(paging: IPaging): Promise<[UserModel[], number]> {
+    const { cursor, page, limit } = paging;
     // Paging
-    return this.userStorage.findAll();
+    const [userList, totalPage] = await this.userStorage.findAll(page, limit, cursor);
+
+    return [this.mapper.mapArray(userList, UserModel, User), totalPage];
   }
 
   findOne(id: number): Promise<User> {

@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Index, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { AutoMap } from '@automapper/classes';
 
 export class BaseEntity {
@@ -7,6 +7,7 @@ export class BaseEntity {
   id: number;
 
   @AutoMap()
+  @Index()
   @Column({ type: 'int', default: 1 })
   status: number;
 
