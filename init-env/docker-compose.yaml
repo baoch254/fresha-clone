@@ -1,0 +1,16 @@
+version: '3.6'
+
+services:
+  mysql:
+    image: mysql:8.0.24
+    platform: linux/amd64
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      # MYSQL_ROOT_HOST: localhost
+      MYSQL_ROOT_PASSWORD: 123456
+      # MYSQL_USER: user
+      # MYSQL_PASSWORD: user
+    volumes:
+      - /Users/bao/mysql:/var/lib/mysql # Window - cap nhat lai duong dan database

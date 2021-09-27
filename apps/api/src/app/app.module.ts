@@ -4,6 +4,7 @@ import { AutomapperModule } from '@automapper/nestjs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CamelCaseNamingConvention } from '@automapper/core';
 import { Module } from '@nestjs/common';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
