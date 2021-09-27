@@ -1,20 +1,15 @@
-import { User } from '../model/entity';
+import { User } from './entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { BaseStorage } from '@fresha/api/shared/abstract';
 
 @Injectable()
-export class ListUserStorage {
+export class UserStorage extends BaseStorage<User> {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>
-  ) {}
-
-  findAll(): Promise<User[]> {
-    return this.userRepository.find();
-  }
-
-  findOne(id: number): Promise<User> {
-    return this.userRepository.findOne(id);
+  ) {
+    super(userRepository);
   }
 }

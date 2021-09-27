@@ -33,6 +33,7 @@
   },
   "projects": {
     "api": "apps/api",
+    "api-shared-abstract": "libs/api/shared/abstract",
     "api-shared-common": "libs/api/shared/common",
     "api-shared-decorator": "libs/api/shared/decorator",
     "api-shared-exception": "libs/api/shared/exception",

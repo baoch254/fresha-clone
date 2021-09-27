@@ -1,4 +1,4 @@
-import { AppExceptionFilter } from '@fresha/api/shared/filter';
+import { AppExceptionFilter, ValidateExceptionFilter } from '@fresha/api/shared/filter';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -30,10 +30,16 @@ async function bootstrap() {
   app.use(cookieParser());
 
   // Global Pipes
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true
+    })
+  );
 
   // Global Filters
   app.useGlobalFilters(new AppExceptionFilter());
+  app.useGlobalFilters(new ValidateExceptionFilter());
 
   // Configurations
   const globalPrefix = 'api';
