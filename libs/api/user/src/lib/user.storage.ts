@@ -6,6 +6,8 @@ import { BaseStorage } from '@fresha/api/shared/abstract';
 
 @Injectable()
 export class UserStorage extends BaseStorage<User> {
+  public entityName = User.name;
+
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>

@@ -1,5 +1,5 @@
 import { HttpStatus } from '@nestjs/common';
-import { AppException } from './abstract';
+import { AppException } from '../abstract';
 
 export class DatabaseException extends AppException {
   constructor(err: Error, log: string) {
@@ -7,7 +7,7 @@ export class DatabaseException extends AppException {
       HttpStatus.BAD_REQUEST,
       err,
       'Something went wrong with DB',
-      `[${err.name}] ${log}`,
+      `[${DatabaseException.name}] ${log}`,
       'DB_ERROR'
     );
   }

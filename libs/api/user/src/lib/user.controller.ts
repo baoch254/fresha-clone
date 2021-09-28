@@ -1,7 +1,7 @@
 import { getSuccessListResp, getSuccessResp, IPaging } from '@fresha/api/shared/common';
 import { UserUpdateDto } from './dto';
 import { User } from './entity';
-import { MapInterceptor } from '@automapper/nestjs';
+import { InjectMapper, MapInterceptor } from '@automapper/nestjs';
 import { UserModel } from '@fresha/shared/data-access/model';
 import { UserService } from './user.service';
 import {
@@ -25,11 +25,12 @@ import {
   ApiOkResponse
 } from '@nestjs/swagger';
 import { UserCreateDto } from './dto';
+import { Mapper } from '@automapper/types';
 
 @ApiTags('Users')
 @Controller('users')
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, @InjectMapper() private mapper: Mapper) {}
 
   @Get()
   @ApiOperation({ summary: 'Get user list' })
@@ -46,8 +47,9 @@ export class UserController {
   ) {
     const paging = new IPaging(page, limit, cursor);
     const [data, total] = await this.userService.findAll(paging);
+    const userModelList = this.mapper.mapArray(data, UserModel, User);
 
-    return getSuccessListResp(data, total, paging);
+    return getSuccessListResp(userModelList, total, paging);
   }
 
   @Get(':id')
@@ -58,7 +60,7 @@ export class UserController {
     type: UserModel
   })
   @ApiResponse({
-    status: 404,
+    status: 400,
     description: 'The record is not founded'
   })
   @UseInterceptors(MapInterceptor(UserModel, User))

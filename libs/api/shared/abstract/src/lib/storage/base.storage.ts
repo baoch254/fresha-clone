@@ -1,5 +1,5 @@
 import { BaseEntity } from '../entity';
-import { EntityStatus } from '@fresha/api/shared/common';
+import { EntityStatus, IPaging } from '@fresha/api/shared/common';
 import { Injectable } from '@nestjs/common';
 import { FindConditions, Repository } from 'typeorm';
 import { DatabaseException } from '@fresha/api/shared/exception';
@@ -9,33 +9,31 @@ import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity
 export class BaseStorage<T extends BaseEntity> {
   constructor(private repository: Repository<T>) {}
 
-  findAll(
-    page: number,
-    limit: number,
-    cursor: number | string | null,
-    conditions?: string[]
-  ): Promise<[T[], number]> {
+  async findAll(paging: IPaging, conditions?: string[]): Promise<[T[], number]> {
     try {
-      let builder = this.repository.createQueryBuilder();
+      const { cursor, page, limit } = paging;
+      let builder = this.repository.createQueryBuilder().where('status = 1');
 
-      // list data with cursor
-      if (cursor != null) {
-        builder = builder.where('id < :cursor', { cursor }).andWhere('status = 1');
-      } else {
-        builder = builder.skip((page - 1) * limit).where('status = 1');
-      }
-
-      // add conditions
+      // Add conditions
       if (conditions) {
         for (const cond of conditions) {
           builder = builder.andWhere(cond);
         }
       }
 
+      const total = await builder.getCount();
+
+      // list data with cursor
+      if (cursor != null) {
+        builder = builder.andWhere('id < :cursor', { cursor });
+      } else {
+        builder = builder.skip((page - 1) * limit);
+      }
+
       // default sorted
       builder = builder.orderBy('id', 'DESC').take(limit);
 
-      return builder.getManyAndCount();
+      return [await builder.getMany(), total];
     } catch (err) {
       throw new DatabaseException(err, err.message);
     }
