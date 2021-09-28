@@ -51,7 +51,20 @@ export class BaseStorage<T extends BaseEntity> {
     }
   }
 
-  findByCondition(condition: FindConditions<T>): Promise<T[]> {
+  findOneByCondition(condition: FindConditions<T>): Promise<T> {
+    try {
+      return this.repository.findOne({
+        where: {
+          ...condition,
+          status: EntityStatus.ACTIVE
+        }
+      });
+    } catch (err) {
+      throw new DatabaseException(err, err.message);
+    }
+  }
+
+  findManyByCondition(condition: FindConditions<T>): Promise<T[]> {
     try {
       return this.repository.find({
         ...condition,

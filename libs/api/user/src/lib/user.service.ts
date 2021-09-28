@@ -49,9 +49,9 @@ export class UserService {
 
   async createUser(user: UserCreateDto) {
     try {
-      const existUsers = await this.userStorage.findByCondition({ email: user.email });
+      const existUser = await this.userStorage.findOneByCondition({ email: user.email });
 
-      if (existUsers?.length > 0) {
+      if (existUser != null) {
         throw new EntityExistException('Email is already exist', I8nKey.ErrEntityEmailExist);
       }
 
@@ -72,6 +72,12 @@ export class UserService {
 
       if (isExist == null) {
         throw new EntityNotFoundException(this.userStorage.entityName);
+      }
+
+      const existUser = await this.userStorage.findOneByCondition({ email: user.email });
+
+      if (existUser?.id !== id) {
+        throw new EntityExistException('Email is already exist', I8nKey.ErrEntityEmailExist);
       }
 
       await this.userStorage.updateOne(id, user);

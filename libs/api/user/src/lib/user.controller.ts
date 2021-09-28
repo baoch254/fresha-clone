@@ -71,6 +71,10 @@ export class UserController {
   @Post()
   @ApiOperation({ summary: 'Create new user' })
   @ApiCreatedResponse({ description: 'The record has been successfully created.' })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request by validation'
+  })
   async createOne(@Body() user: UserCreateDto) {
     return getSuccessResp(await this.userService.createUser(user));
   }
@@ -78,6 +82,10 @@ export class UserController {
   @Put(':id')
   @ApiOperation({ summary: 'Update a user' })
   @ApiOkResponse({ description: 'The record has been successfully updated.' })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request by validation'
+  })
   async updateOne(@Param('id', ParseIntPipe) id: number, @Body() user: UserUpdateDto) {
     return getSuccessResp(await this.userService.updateUser(id, user));
   }
